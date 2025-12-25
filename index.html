@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Portofolio - Datxzz</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Setup */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #000000;
+            color: #f5f5f7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* iOS Glassmorphism Cards */
+        .ios-card {
+            background-color: rgba(28, 28, 30, 0.75);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        }
+        
+        .glass-nav {
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Typography Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Sidebar Animation - FIXED */
+        .sidebar {
+            width: 80px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 50;
+            overflow: hidden;
+        }
+        
+        .sidebar:hover {
+            width: 260px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .sidebar-content {
+            opacity: 0;
+            white-space: nowrap;
+            transition: opacity 0.3s ease-in-out 0.1s;
+            pointer-events: none;
+        }
+        
+        .sidebar:hover .sidebar-content {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        /* Profile Image Container */
+        .profile-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            padding: 8px;
+            background: linear-gradient(135deg, #a855f7, #3b82f6, #06b6d4);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            box-shadow: 
+                0 0 50px rgba(168, 85, 247, 0.4),
+                0 0 100px rgba(59, 130, 246, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-container:hover {
+            transform: scale(1.02);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #000;
+            background-color: #1c1c1e;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #a855f7, #3b82f6);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #9333ea, #2563eb);
+        }
+
+        /* Modern Donut Chart */
+        .donut-chart-container {
+            width: 220px;
+            height: 220px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .donut-chart {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 4px 12px rgba(168, 85, 247, 0.3));
+        }
+
+        .donut-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 14;
+            stroke-dasharray: 5, 5;
+        }
+
+        .donut-progress {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 14;
+            stroke-linecap: round;
+            stroke-dasharray: 628;
+            stroke-dashoffset: 628;
+            transition: stroke-dashoffset 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+            filter: url(#glow);
+        }
+
+        .chart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(28, 28, 30, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-percent {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 10px rgba(168, 85, 247, 0.5);
+            line-height: 1;
+        }
+
+        .chart-label {
+            font-size: 1.1rem;
+            color: #a1a1aa;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Technology Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .tech-item {
+            padding: 1.25rem 1rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .tech-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.15);
+        }
+
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-item:hover .tech-icon {
+            transform: scale(1.1);
+        }
+
+        .tech-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        /* Progress Bars for Mobile */
+        .progress-container {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-weight: 500;
+            color: #f5f5f7;
+        }
+
+        .progress-percent {
+            font-weight: 600;
+            color: #a855f7;
+        }
+
+        .progress-bar {
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #a855f7, #3b82f6);
+            transition: width 1.5s ease-out;
+            position: relative;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Motivation Cards */
+        .motivation-card {
+            background: linear-gradient(145deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .motivation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #a855f7, #3b82f6);
+        }
+
+        .motivation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(168, 85, 247, 0.2);
+        }
+
+        .motivation-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-container {
+                width: 220px;
+                height: 220px;
+                padding: 6px;
+            }
+            
+            .donut-chart-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .chart-center {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .chart-percent {
+                font-size: 2.2rem;
+            }
+            
+            .chart-label {
+                font-size: 1rem;
+            }
+            
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar:hover {
+                width: 70px;
+            }
+            
+            .sidebar-content {
+                display: none;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .tech-item {
+                padding: 1rem 0.75rem;
+            }
+            
+            .tech-icon {
+                font-size: 2rem;
+            }
+            
+            .progress-bar {
+                height: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .donut-chart-container {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .chart-center {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .chart-percent {
+                font-size: 1.8rem;
+            }
+            
+            .chart-label {
+                font-size: 0.9rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .tech-item {
+                padding: 1.25rem;
+            }
+            
+            .progress-bar {
+                height: 12px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .tech-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Mobile Menu FIXED */
+        .mobile-menu-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .mobile-panel-active {
+            transform: translateX(0) !important;
+        }
+
+        /* Mobile Sidebar Fix - Tambahkan ini */
+        #mobileSidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 9999 !important;
+            overflow: hidden !important;
+        }
+
+        #mobilePanel {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            height: 100% !important;
+            overflow-y: auto !important;
+        }
+
+        /* Button Styles */
+        .gradient-btn {
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+        }
+
+        .gradient-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s;
+        }
+
+        .gradient-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Section Spacing */
+        section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+        }
+
+        /* Motivation Grid */
+        .motivation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .rotate-animation {
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fix untuk Main Content */
+        main {
+            width: 100%;
+            position: relative;
+        }
+
+        /* Pastikan sidebar benar-benar fixed */
+        .sidebar {
+            transform: none !important;
+        }
+
+        .sidebar:hover {
+            transform: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative selection:bg-purple-500/30 selection:text-white">
+
+    <!-- SVG Gradient Definition -->
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a855f7" />
+                <stop offset="50%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Sidebar Navigation - Fixed Position -->
+    <aside class="sidebar glass-nav hidden md:flex flex-col justify-between py-8 pr-4 pl-4 fixed top-0 left-0 h-screen z-40">
+        <div class="flex flex-col items-center space-y-8 w-full">
+            <!-- Logo -->
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center shadow-lg flex-shrink-0">
+                <a href="#home" class="flex items-center justify-center w-full h-full">
+                    <i class="fas fa-code text-white text-lg"></i>
+                </a>
+            </div>
+            
+            <!-- Menu Items -->
+            <nav class="flex flex-col w-full space-y-4">
+
+                    <span class="sidebar-content ml-4 text-gray-300 font-medium">Kontak</span>
+                </a>
+            </nav>
+        </div>
+        </div>
+    </aside>
+    
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="fixed top-6 right-6 z-50 md:hidden p-3 rounded-full ios-card active:scale-95 transition-transform shadow-lg">
+        <i class="fas fa-bars text-white text-lg"></i>
+    </button>
+    
+    <!-- Mobile Sidebar Overlay - FIXED -->
+    <div id="mobileSidebar" class="fixed inset-0 z-40 md:hidden opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="mobileOverlay"></div>
+        <div class="absolute top-0 left-0 h-full w-72 ios-card transform -translate-x-full transition-transform duration-300" id="mobilePanel">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-12">
+                    <span class="text-2xl font-bold gradient-text">Menu</span>
+                    <button id="closeMobileSidebar" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-6">
+
+                    <a href="contact.html" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors">Kontak</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="min-h-screen md:ml-20 pb-20">
+        
+        <!-- Hero Section -->
+        <section id="home" class="pt-28 md:pt-32 pb-16 md:pb-20 px-6 md:px-12 lg:px-20 min-h-screen flex items-center">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 md:gap-16">
+                    <div class="lg:w-1/2 fade-in-section">
+                        <div class="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                            <span class="text-sm font-medium text-purple-400">👋 Selamat Datang di Portofolio Saya</span>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                            Halo, Saya <br>
+                            <span class="gradient-text">Datxzz</span>
+                        </h1>
+                        <h2 class="text-xl text-gray-400 mb-8 font-light">Back-end Developert & Front-end Developert</h2>
+                        <p class="text-gray-400 text-lg mb-10 max-w-lg leading-relaxed">Menciptakan Suatu Project Dengan Imajinasi Yang Responsif, Elegan, Dan Modern</p>
+                    </div>
+                    <div class="lg:w-1/2 flex justify-center fade-in-section">
+                        <div class="profile-container floating-element">
+                            <!-- Foto Profil me.jpg -->
+                            <img src="me.jpg" alt="Datxzz" class="profile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback jika gambar tidak ada -->
+                            <div class="hidden w-full h-full absolute top-0 left-0 items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-full">
+                                <div class="text-center">
+                                    <i class="fas fa-user text-6xl text-gray-600 mb-4"></i>
+                                    <p class="text-gray-500 text-sm">Datxzz</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 md:py-24 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-transparent to-purple-900/5">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 fade-in-section">
+                    <h2 class="text-4xl font-bold mb-4">Keahlian</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-lg">Keahlian Saya Dalam Bidang Teknologi</p>
+                </div>
+                
+                <!-- Donut Charts Grid (Desktop) -->
+                <div class="ios-card p-8 md:p-12 fade-in-section mb-12 hidden md:block">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                        
+                        <!-- HTML Chart -->
+                        <div class="flex flex-col items-center">
+                            <div class="donut-chart-container">
+                                <svg class="donut-chart">
+                                    <circle class="donut-bg" cx="110" cy="110" r="100"></circle>
+                                    <circle class="donut-progress" data-percent="95" cx="110" cy="110" r="100"></circle>
+                                </svg>
+                                <div class="chart-center">
+                                    <div class="chart-percent">95%</div>
+                                    <div class="chart-label">HTML</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JavaScript Chart -->
+                        <div class="flex flex-col items-center">
+                            <div class="donut-chart-container">
+                                <svg class="donut-chart">
+                                    <circle class="donut-bg" cx="110" cy="110" r="100"></circle>
+                                    <circle class="donut-progress" data-percent="90" cx="110" cy="110" r="100"></circle>
+                                </svg>
+                                <div class="chart-center">
+                                    <div class="chart-percent">80%</div>
+                                    <div class="chart-label">JavaScript</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Python Chart -->
+                        <div class="flex flex-col items-center">
+                            <div class="donut-chart-container">
+                                <svg class="donut-chart">
+                                    <circle class="donut-bg" cx="110" cy="110" r="100"></circle>
+                                    <circle class="donut-progress" data-percent="85" cx="110" cy="110" r="100"></circle>
+                                </svg>
+                                <div class="chart-center">
+                                    <div class="chart-percent">70%</div>
+                                    <div class="chart-label">Python</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Chart -->
+                        <div class="flex flex-col items-center">
+                            <div class="donut-chart-container">
+                                <svg class="donut-chart">
+                                    <circle class="donut-bg" cx="110" cy="110" r="100"></circle>
+                                    <circle class="donut-progress" data-percent="100" cx="110" cy="110" r="100"></circle>
+                                </svg>
+                                <div class="chart-center">
+                                    <div class="chart-percent">100%</div>
+                                    <div class="chart-label">Artificial Intelligence Engineering</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Motivation Section -->
+                    <div id="motivation" class="mt-16">
+                        <h3 class="text-2xl font-bold mb-8 text-center gradient-text">Motivasi & Filosofi Saya</h3>
+                        
+                        <div class="motivation-grid">
+                            <!-- Motivation Card 1 -->
+                            <div class="motivation-card fade-in-section">
+                                <div class="motivation-icon">
+                                    <i class="fas fa-bolt text-white"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold mb-3">Inovasi Berkelanjutan</h4>
+                                <p class="text-gray-400">Saya percaya dalam mendorong batas dan terus menjelajahi teknologi baru. Setiap proyek adalah kesempatan untuk berinovasi dan menciptakan sesuatu yang luar biasa.</p>
+                            </div>
+
+                            <!-- Motivation Card 2 -->
+                            <div class="motivation-card fade-in-section">
+                                <div class="motivation-icon">
+                                    <i class="fas fa-heart text-white"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold mb-3">Pengembangan Berbasis Passion</h4>
+                                <p class="text-gray-400">Coding bukan hanya pekerjaan—ini adalah passion saya. Saya mencurahkan hati saya ke dalam setiap baris kode, memastikan setiap proyek mencerminkan dedikasi dan keunggulan.</p>
+                            </div>
+
+                            <!-- Motivation Card 3 -->
+                            <div class="motivation-card fade-in-section">
+                                <div class="motivation-icon">
+                                    <i class="fas fa-rocket text-white"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold mb-3">Solusi Siap Masa Depan</h4>
+                                <p class="text-gray-400">Spesialis dalam AI dan teknologi web modern, saya membangun solusi yang tidak hanya untuk hari ini, tetapi dirancang untuk berevolusi dan beradaptasi dengan tantangan masa depan.</p>
+                            </div>
+
+                            <!-- Motivation Card 4 -->
+                            <div class="motivation-card fade-in-section">
+                                <div class="motivation-icon">
+                                    <i class="fas fa-users text-white"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold mb-3">Pendekatan Berpusat pada Pengguna</h4>
+                                <p class="text-gray-400">Teknologi yang hebat harus dapat diakses oleh semua orang. Saya fokus pada penciptaan pengalaman yang intuitif dan ramah pengguna yang membuat teknologi kompleks terasa sederhana.</p>
+                            </div>
+                        </div>
+
+                        <!-- Quote -->
+                        <div class="mt-12 text-center">
+                            <div class="inline-block px-8 py-6 bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20">
+                                <p class="text-lg text-gray-300 italic mb-4">
+                                    "Teknologi terbaik adalah ketika menghubungkan orang. Tujuan saya adalah membangun jembatan digital yang menghubungkan ide dengan kenyataan."
+                                </p>
+                                <p class="text-purple-400 font-medium">— Datxzz</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bars (Mobile) -->
+                <div class="ios-card p-8 md:p-12 fade-in-section mb-12 md:hidden">
+                    <div class="space-y-8">
+                        <!-- HTML Progress -->
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="progress-label">HTML</span>
+                                <span class="progress-percent">95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                            <p class="text-gray-400 text-sm mt-2">Menguasai struktur semantik dan aksesibilitas</p>
+                        </div>
+
+                        <!-- JavaScript Progress -->
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="progress-label">JavaScript</span>
+                                <span class="progress-percent">90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                            <p class="text-gray-400 text-sm mt-2">Membangun pengalaman web yang dinamis dan interaktif</p>
+                        </div>
+
+                        <!-- Python Progress -->
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="progress-label">Python</span>
+                                <span class="progress-percent">85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                            <p class="text-gray-400 text-sm mt-2">Mengembangkan backend efisien dan solusi data</p>
+                        </div>
+
+                        <!-- AI Progress -->
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="progress-label">Artificial Intelligence Engineering</span>
+                                <span class="progress-percent">100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            <p class="text-gray-400 text-sm mt-2">Membuat sistem cerdas dan solusi machine learning</p>
+                        </div>
+
+                        <!-- Mobile Motivation -->
+                        <div id="motivation" class="mt-8">
+                            <h3 class="text-xl font-bold mb-4 gradient-text">Motivasi Saya</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-white/5 rounded-xl border border-white/10">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center mr-3">
+                                            <i class="fas fa-bolt text-white text-sm"></i>
+                                        </div>
+                                        <h4 class="font-semibold">Inovasi Pertama</h4>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Masa depan tidak diciptakan oleh orang-orang yang ragu, melainkan oleh orang-orang yang terus melangkah meski kakinya gemetar.</p>
+                                </div>
+                                
+                                <div class="p-4 bg-white/5 rounded-xl border border-white/10">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center mr-3">
+                                            <i class="fas fa-rocket text-white text-sm"></i>
+                                        </div>
+                                        <h4 class="font-semibold">Siap Masa Depan</h4>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Membangun solusi yang berevolusi dan beradaptasi untuk tantangan masa depan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="py-10 border-t border-white/5 text-center relative z-10 bg-black/50 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-6">
+                <p class="text-gray-600 text-sm">© <span id="currentYear"></span> Datxzz. Semua hak dilindungi.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+
+                <div class="mt-6">
+                    <a href="contact.html" class="text-gray-500 hover:text-white transition-colors text-sm">
+                        → Pergi ke Halaman Kontak
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // --- Mobile Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobilePanel = document.getElementById('mobilePanel');
+            const closeMobileSidebar = document.getElementById('closeMobileSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileLinks = document.querySelectorAll('#mobileSidebar a');
+
+            function openMenu() {
+                mobileSidebar.classList.add('mobile-menu-active');
+                mobilePanel.classList.add('mobile-panel-active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                mobileSidebar.classList.remove('mobile-menu-active');
+                mobilePanel.classList.remove('mobile-panel-active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuButton.addEventListener('click', openMenu);
+            closeMobileSidebar.addEventListener('click', closeMenu);
+            mobileOverlay.addEventListener('click', closeMenu);
+            mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+            // Tutup mobile menu saat scroll - FIX
+            window.addEventListener('scroll', () => {
+                if (window.innerWidth < 768 && mobileSidebar.classList.contains('mobile-menu-active')) {
+                    closeMenu();
+                }
+            });
+
+            // --- Intersection Observer for Scroll Animations ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const fadeObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        
+                        // Animate donut charts with staggered delay
+                        if (entry.target.id === 'skills' || entry.target.closest('#skills')) {
+                            setTimeout(() => {
+                                document.querySelectorAll('.donut-progress').forEach((chart, index) => {
+                                    const percent = parseInt(chart.getAttribute('data-percent'));
+                                    const circumference = 628; // 2 * PI * 100
+                                    const offset = circumference - (percent / 100) * circumference;
+                                    
+                                    // Stagger animation
+                                    setTimeout(() => {
+                                        chart.style.strokeDashoffset = offset;
+                                        // Add pulse animation to chart center
+                                        const chartCenter = chart.closest('.donut-chart-container').querySelector('.chart-center');
+                                        chartCenter.classList.add('pulse-animation');
+                                        setTimeout(() => {
+                                            chartCenter.classList.remove('pulse-animation');
+                                        }, 1000);
+                                    }, index * 300);
+                                });
+                            }, 500);
+                        }
+                        
+                        // Animate motivation cards
+                        if (entry.target.closest('.motivation-card')) {
+                            entry.target.style.animationDelay = '0.3s';
+                        }
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                fadeObserver.observe(section);
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = window.innerWidth < 768 ? 80 : 100;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (window.innerWidth < 768) {
+                            closeMenu();
+                        }
+                    }
+                });
+            });
+
+            // Animate progress bars on mobile when in view
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            if (window.innerWidth < 768) {
+                const progressObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const progressFill = entry.target;
+                            const width = progressFill.style.width;
+                            progressFill.style.width = '0%';
+                            setTimeout(() => {
+                                progressFill.style.width = width;
+                            }, 100);
+                            
+                            // Animate parent container
+                            const container = progressFill.closest('.progress-container');
+                            container.style.opacity = '0';
+                            container.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                container.style.transition = 'all 0.6s ease';
+                                container.style.opacity = '1';
+                                container.style.transform = 'translateY(0)';
+                            }, 50);
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                progressBars.forEach(bar => progressObserver.observe(bar));
+            }
+
+            // Add active state to nav links on scroll
+            const sections = document.querySelectorAll('section[id]');
+            
+            function updateActiveNav() {
+                const scrollY = window.pageYOffset;
+                
+                sections.forEach(current => {
+                    const sectionHeight = current.offsetHeight;
+                    const sectionTop = current.offsetTop - 150;
+                    const sectionId = current.getAttribute('id');
+                    
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        // Remove active from all links
+                        document.querySelectorAll('.sidebar a').forEach(link => {
+                            link.classList.remove('bg-white/5');
+                            link.querySelector('i').classList.remove('text-purple-400');
+                        });
+                        
+                        // Add active to current link
+                        const currentLink = document.querySelector(`.sidebar a[href*="#${sectionId}"]`);
+                        if (currentLink) {
+                            currentLink.classList.add('bg-white/5');
+                            currentLink.querySelector('i').classList.add('text-purple-400');
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNav);
+            updateActiveNav(); // Initial call
+
+            // Add hover effect to donut charts
+            document.querySelectorAll('.donut-chart-container').forEach(chart => {
+                chart.addEventListener('mouseenter', () => {
+                    const progress = chart.querySelector('.donut-progress');
+                    const originalStrokeWidth = progress.style.strokeWidth;
+                    progress.style.strokeWidth = '16';
+                    progress.style.filter = 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.6))';
+                    
+                    const center = chart.querySelector('.chart-center');
+                    center.style.transform = 'translate(-50%, -50%) scale(1.05)';
+                    center.style.transition = 'transform 0.3s ease';
+                });
+                
+                chart.addEventListener('mouseleave', () => {
+                    const progress = chart.querySelector('.donut-progress');
+                    progress.style.strokeWidth = '14';
+                    progress.style.filter = '';
+                    
+                    const center = chart.querySelector('.chart-center');
+                    center.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            });
+
+            // Prevent body scroll when mobile menu is open
+            function preventBodyScroll(prevent) {
+                if (prevent) {
+                    document.body.style.overflow = 'hidden';
+                    document.documentElement.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                    document.documentElement.style.overflow = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
