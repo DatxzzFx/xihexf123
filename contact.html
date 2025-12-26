@@ -128,6 +128,115 @@
             background: linear-gradient(to bottom, #9333ea, #2563eb);
         }
 
+        /* Language Selector Styles - FIXED */
+        .language-selector {
+            position: relative;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-left: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .language-selector:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-option {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .language-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .language-option:last-child {
+            border-bottom: none;
+        }
+
+        .language-option.active {
+            background: rgba(168, 85, 247, 0.15);
+        }
+
+        .language-check {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .language-option.active .language-check {
+            opacity: 1;
+        }
+
+        /* Untuk mobile sidebar language */
+        .mobile-language-selector {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-language-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .mobile-language-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            position: relative;
+        }
+
+        .mobile-language-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .mobile-language-option.active {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.6);
+        }
+
+        .mobile-flag {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .mobile-language-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .mobile-language-check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #a855f7;
+            font-size: 0.8rem;
+        }
+
         /* Mobile Menu */
         .mobile-menu-active {
             opacity: 1 !important;
@@ -241,20 +350,67 @@
             }
         }
 
-        /* Map Container */
-        .map-container {
-            border-radius: 16px;
-            overflow: hidden;
+        /* Language Notification */
+        .language-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            background: rgba(28, 28, 30, 0.95);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease-out;
+            max-width: 300px;
         }
 
-        /* Social Links */
-        .social-link {
-            transition: all 0.3s ease;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .social-link:hover {
-            transform: translateY(-3px);
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+
+        .language-notification.hiding {
+            animation: slideOut 0.3s ease-in;
+        }
+
+        /* Performance optimizations */
+        .will-change-transform {
+            will-change: transform;
+        }
+
+        .will-change-opacity {
+            will-change: opacity;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -270,13 +426,76 @@
                 </a>
             </div>
             
-
+            <!-- Menu Items -->
+            <nav class="flex flex-col w-full space-y-4">
+                <a href="index.html" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-home text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="home">Beranda</span>
+                </a>
+                
+                <a href="index.html#skills" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-code text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="skills">Keahlian</span>
+                </a>
+                
+                <a href="index.html#motivation" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-lightbulb text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="motivation">Motivasi</span>
+                </a>
+                
                 <a href="contact.html" class="group flex items-center p-3 rounded-xl bg-white/5 transition-all duration-300 w-full">
                     <i class="fas fa-envelope text-purple-400 w-6 text-center text-lg"></i>
-                    <span class="sidebar-content ml-4 text-white font-medium">Kontak</span>
+                    <span class="sidebar-content ml-4 text-white font-medium" data-translate="contact">Kontak</span>
                 </a>
+                
+                <!-- Language Selector - FIXED -->
+                <div class="language-selector mt-4 pt-4 border-t border-white/10">
+                    <div class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full cursor-pointer">
+                        <i class="fas fa-globe text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                        <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="language">Bahasa</span>
+                        <i class="sidebar-content fas fa-chevron-down text-gray-400 group-hover:text-white ml-2 text-sm transition-transform duration-300"></i>
+                    </div>
+                    
+                    <!-- Language Dropdown -->
+                    <div class="language-dropdown w-48 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-white/10 overflow-hidden">
+                        <!-- Indonesia -->
+                        <div class="language-option p-3 flex items-center transition-colors" data-lang="id">
+                            <svg class="w-6 h-6 mr-3" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="36" height="24" rx="4" fill="#E70011"/>
+                                <rect y="12" width="36" height="12" rx="2" fill="#FFFFFF"/>
+                            </svg>
+                            <span class="text-white font-medium">Indonesia</span>
+                            <i class="fas fa-check text-purple-400 ml-auto language-check"></i>
+                        </div>
+                        
+                        <!-- Inggris -->
+                        <div class="language-option p-3 flex items-center transition-colors" data-lang="en">
+                            <svg class="w-6 h-6 mr-3" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="36" height="24" rx="4" fill="#012169"/>
+                                <path d="M0 0L36 24M36 0L0 24" stroke="#C8102E" stroke-width="4"/>
+                                <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#FFFFFF" stroke-width="3.6"/>
+                                <path d="M0 0L36 24M36 0L0 24" stroke="#FFFFFF" stroke-width="2"/>
+                                <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#C8102E" stroke-width="1.2"/>
+                            </svg>
+                            <span class="text-white font-medium">English</span>
+                            <i class="fas fa-check text-purple-400 ml-auto language-check"></i>
+                        </div>
+                    </div>
+                </div>
             </nav>
         </div>
+        
+        <!-- Social Links at Bottom -->
+        <div class="flex flex-col items-center space-y-4">
+            <div class="flex space-x-3">
+                <a href="https://github.com/datxzz" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+                    <i class="fab fa-github text-white"></i>
+                </a>
+                <a href="https://linkedin.com/in/datxzz" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+                    <i class="fab fa-linkedin-in text-white"></i>
+                </a>
+            </div>
+            <p class="sidebar-content text-xs text-gray-500 text-center">© <span id="currentYearSidebar"></span> Datxzz</p>
         </div>
     </aside>
     
@@ -288,18 +507,53 @@
     <!-- Mobile Sidebar Overlay -->
     <div id="mobileSidebar" class="fixed inset-0 z-40 md:hidden opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="mobileOverlay"></div>
-        <div class="absolute top-0 left-0 h-full w-72 ios-card transform -translate-x-full transition-transform duration-300 fixed" id="mobilePanel">
+        <div class="absolute top-0 left-0 h-full w-72 ios-card transform -translate-x-full transition-transform duration-300" id="mobilePanel">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-12">
-                    <span class="text-2xl font-bold gradient-text">Menu</span>
+                    <span class="text-2xl font-bold gradient-text" data-translate="mobileMenuTitle">Menu</span>
                     <button id="closeMobileSidebar" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
                         <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
                 <nav class="flex flex-col space-y-6">
-
-                    <a href="contact.html" class="text-xl text-white py-3 px-4 rounded-xl bg-white/10 transition-colors">Kontak</a>
+                    <a href="index.html" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors" data-translate="home">Beranda</a>
+                    <a href="index.html#skills" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors" data-translate="skills">Keahlian</a>
+                    <a href="index.html#motivation" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors" data-translate="motivation">Motivasi</a>
+                    <a href="contact.html" class="text-xl text-white py-3 px-4 rounded-xl bg-white/10 transition-colors" data-translate="contact">Kontak</a>
                 </nav>
+                
+                <!-- Mobile Language Selector -->
+                <div class="mobile-language-selector fade-in-section">
+                    <h3 class="text-lg font-semibold mb-4 text-center gradient-text" data-translate="languageSelector">Pilih Bahasa</h3>
+                    <div class="mobile-language-options">
+                        <!-- Indonesia -->
+                        <div class="mobile-language-option relative" data-lang="id">
+                            <div class="mobile-flag">
+                                <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="36" height="24" rx="4" fill="#E70011"/>
+                                    <rect y="12" width="36" height="12" rx="2" fill="#FFFFFF"/>
+                                </svg>
+                            </div>
+                            <span class="mobile-language-text">Indonesia</span>
+                            <i class="fas fa-check mobile-language-check"></i>
+                        </div>
+                        
+                        <!-- English -->
+                        <div class="mobile-language-option relative" data-lang="en">
+                            <div class="mobile-flag">
+                                <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="36" height="24" rx="4" fill="#012169"/>
+                                    <path d="M0 0L36 24M36 0L0 24" stroke="#C8102E" stroke-width="4"/>
+                                    <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#FFFFFF" stroke-width="3.6"/>
+                                    <path d="M0 0L36 24M36 0L0 24" stroke="#FFFFFF" stroke-width="2"/>
+                                    <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#C8102E" stroke-width="1.2"/>
+                                </svg>
+                            </div>
+                            <span class="mobile-language-text">English</span>
+                            <i class="fas fa-check mobile-language-check"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -312,12 +566,12 @@
             <div class="max-w-7xl mx-auto w-full">
                 <div class="text-center mb-16 fade-in-section">
                     <div class="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-                        <span class="text-sm font-medium text-purple-400">📬 Hubungi Saya</span>
+                        <span class="text-sm font-medium text-purple-400" data-translate="contactHero">📬 Hubungi Saya</span>
                     </div>
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                        Mari <span class="gradient-text">Terhubung</span>
+                        <span data-translate="contactTitle">Mari</span> <span class="gradient-text" data-translate="connectWord">Terhubung</span>
                     </h1>
-                    <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+                    <p class="text-gray-400 max-w-3xl mx-auto text-lg" data-translate="contactSubtitle">
                         Punya proyek dalam pikiran? Ingin berkolaborasi? Atau hanya ingin menyapa? 
                         Jangan ragu untuk menghubungi saya—saya akan senang mendengar dari Anda!
                     </p>
@@ -331,7 +585,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <!-- Contact Details -->
                     <div class="fade-in-section">
-                        <h2 class="text-3xl font-bold mb-8">Informasi Kontak</h2>
+                        <h2 class="text-3xl font-bold mb-8" data-translate="contactInfo">Informasi Kontak</h2>
                         
                         <div class="space-y-6">
                             <!-- Email Card -->
@@ -341,8 +595,8 @@
                                         <i class="fas fa-envelope text-white text-xl"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-xl font-semibold mb-2">Alamat Email</h3>
-                                        <p class="text-gray-400 mb-3">Kirim email kapan saja</p>
+                                        <h3 class="text-xl font-semibold mb-2" data-translate="emailTitle">Alamat Email</h3>
+                                        <p class="text-gray-400 mb-3" data-translate="emailSubtitle">Kirim email kapan saja</p>
                                         <a href="mailto:yun-wangshu@proton.me" class="text-purple-400 hover:text-purple-300 transition-colors font-medium">
                                             yun-wangshu@proton.me
                                         </a>
@@ -357,12 +611,11 @@
                                         <i class="fas fa-map-marker-alt text-white text-xl"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-xl font-semibold mb-2">Lokasi</h3>
-                                        <p class="text-gray-400 mb-3">Berdasarkan di Indonesia</p>
-                                        <p class="text-gray-300">Indonesia, Banten</p>
+                                        <h3 class="text-xl font-semibold mb-2" data-translate="locationTitle">Lokasi</h3>
+                                        <p class="text-gray-400 mb-3" data-translate="locationSubtitle">Berdasarkan di Indonesia</p>
+                                        <p class="text-gray-300" data-translate="locationText">Indonesia, Banten</p>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
@@ -375,9 +628,9 @@
         <!-- Footer -->
         <footer class="py-10 border-t border-white/5 text-center relative z-10 bg-black/50 backdrop-blur-sm">
             <div class="max-w-7xl mx-auto px-6">
-                <p class="text-gray-600 text-sm">© <span id="currentYear"></span> Semua hak dilindungi.</p>
+                <p class="text-gray-600 text-sm">© <span id="currentYear"></span> Datxzz. <span data-translate="footerRights">Semua hak dilindungi.</span></p>
                 <div class="mt-6">
-                    <a href="index.html" class="text-gray-500 hover:text-white transition-colors text-sm">
+                    <a href="index.html" class="text-gray-500 hover:text-white transition-colors text-sm" data-translate="backLink">
                         ← Kembali ke Portofolio
                     </a>
                 </div>
@@ -386,10 +639,268 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set current year in footer
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Shared Language Manager
+        const LanguageManager = {
+            currentLang: 'id',
+            translations: {
+                id: {
+                    // Navigation
+                    home: 'Beranda',
+                    skills: 'Keahlian',
+                    motivation: 'Motivasi',
+                    contact: 'Kontak',
+                    language: 'Bahasa',
+                    
+                    // Contact Page
+                    contactHero: '📬 Hubungi Saya',
+                    contactTitle: 'Mari',
+                    connectWord: 'Terhubung',
+                    contactSubtitle: 'Punya proyek dalam pikiran? Ingin berkolaborasi? Atau hanya ingin menyapa? Jangan ragu untuk menghubungi saya—saya akan senang mendengar dari Anda!',
+                    
+                    contactInfo: 'Informasi Kontak',
+                    emailTitle: 'Alamat Email',
+                    emailSubtitle: 'Kirim email kapan saja',
+                    locationTitle: 'Lokasi',
+                    locationSubtitle: 'Berdasarkan di Indonesia',
+                    locationText: 'Indonesia, Banten',
+                    
+                    quickLinks: 'Tautan Cepat',
+                    portfolioLink: 'Portofolio',
+                    portfolioDesc: 'Lihat proyek dan keahlian saya',
+                    
+                    // Footer
+                    footerRights: 'Semua hak dilindungi.',
+                    backLink: '← Kembali ke Portofolio',
+                    
+                    // Mobile Menu
+                    mobileMenuTitle: 'Menu',
+                    languageSelector: 'Pilih Bahasa'
+                },
+                en: {
+                    // Navigation
+                    home: 'Home',
+                    skills: 'Skills',
+                    motivation: 'Motivation',
+                    contact: 'Contact',
+                    language: 'Language',
+                    
+                    // Contact Page
+                    contactHero: '📬 Contact Me',
+                    contactTitle: "Let's",
+                    connectWord: 'Connect',
+                    contactSubtitle: 'Have a project in mind? Want to collaborate? Or just want to say hello? Don\'t hesitate to reach out—I\'d love to hear from you!',
+                    
+                    contactInfo: 'Contact Information',
+                    emailTitle: 'Email Address',
+                    emailSubtitle: 'Send email anytime',
+                    locationTitle: 'Location',
+                    locationSubtitle: 'Based in Indonesia',
+                    locationText: 'Indonesia, Banten',
+                    
+                    quickLinks: 'Quick Links',
+                    portfolioLink: 'Portfolio',
+                    portfolioDesc: 'View my projects and skills',
+                    
+                    // Footer
+                    footerRights: 'All rights reserved.',
+                    backLink: '← Back to Portfolio',
+                    
+                    // Mobile Menu
+                    mobileMenuTitle: 'Menu',
+                    languageSelector: 'Select Language'
+                }
+            },
+            
+            init() {
+                // Load saved language from localStorage
+                const savedLang = localStorage.getItem('portfolio-language');
+                if (savedLang && (savedLang === 'id' || savedLang === 'en')) {
+                    this.currentLang = savedLang;
+                } else {
+                    // Default to Indonesian
+                    this.currentLang = 'id';
+                    localStorage.setItem('portfolio-language', 'id');
+                }
+                
+                // Apply language on load
+                this.applyLanguage();
+                
+                // Set up language selector events
+                this.setupLanguageSelectors();
+            },
+            
+            setupLanguageSelectors() {
+                // Desktop language options
+                document.querySelectorAll('.language-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        this.changeLanguage(lang);
+                    });
+                });
+                
+                // Mobile language options
+                document.querySelectorAll('.mobile-language-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        this.changeLanguage(lang);
+                        
+                        // Close mobile menu if open
+                        if (window.innerWidth < 768) {
+                            this.closeMobileMenu();
+                        }
+                    });
+                });
+                
+                // Prevent dropdown from closing when clicking inside
+                document.querySelectorAll('.language-selector').forEach(selector => {
+                    selector.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+                });
+            },
+            
+            changeLanguage(lang) {
+                if (lang === this.currentLang) return;
+                
+                this.currentLang = lang;
+                localStorage.setItem('portfolio-language', lang);
+                
+                // Apply new language
+                this.applyLanguage();
+                
+                // Update active states
+                this.updateActiveStates();
+                
+                // Show notification
+                this.showLanguageNotification(lang);
+            },
+            
+            applyLanguage() {
+                const t = this.translations[this.currentLang];
+                
+                // Update all elements with data-translate attribute
+                document.querySelectorAll('[data-translate]').forEach(element => {
+                    const key = element.getAttribute('data-translate');
+                    if (t[key]) {
+                        element.textContent = t[key];
+                    }
+                });
+                
+                // Update HTML lang attribute
+                document.documentElement.lang = this.currentLang;
+                
+                // Update title
+                if (this.currentLang === 'en') {
+                    document.title = 'Contact - Datxzz Portfolio';
+                } else {
+                    document.title = 'Kontak - Portofolio Datxzz';
+                }
+            },
+            
+            updateActiveStates() {
+                // Desktop language options
+                document.querySelectorAll('.language-option').forEach(option => {
+                    const lang = option.getAttribute('data-lang');
+                    if (lang === this.currentLang) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+                
+                // Mobile language options
+                document.querySelectorAll('.mobile-language-option').forEach(option => {
+                    const lang = option.getAttribute('data-lang');
+                    const checkIcon = option.querySelector('.mobile-language-check');
+                    
+                    if (lang === this.currentLang) {
+                        option.classList.add('active');
+                        checkIcon.style.display = 'block';
+                    } else {
+                        option.classList.remove('active');
+                        checkIcon.style.display = 'none';
+                    }
+                });
+            },
+            
+            showLanguageNotification(lang) {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.language-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = 'language-notification';
+                
+                // Create flag SVG
+                let flagSvg = '';
+                if (lang === 'id') {
+                    flagSvg = `
+                        <svg width="24" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="36" height="24" rx="4" fill="#E70011"/>
+                            <rect y="12" width="36" height="12" rx="2" fill="#FFFFFF"/>
+                        </svg>
+                    `;
+                } else {
+                    flagSvg = `
+                        <svg width="24" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="36" height="24" rx="4" fill="#012169"/>
+                            <path d="M0 0L36 24M36 0L0 24" stroke="#C8102E" stroke-width="4"/>
+                            <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#FFFFFF" stroke-width="3.6"/>
+                            <path d="M0 0L36 24M36 0L0 24" stroke="#FFFFFF" stroke-width="2"/>
+                            <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#C8102E" stroke-width="1.2"/>
+                        </svg>
+                    `;
+                }
+                
+                // Set notification content
+                notification.innerHTML = `
+                    <div class="flex-shrink-0">
+                        ${flagSvg}
+                    </div>
+                    <div class="text-white text-sm font-medium">
+                        ${lang === 'id' ? 'Bahasa diubah ke Indonesia' : 'Language changed to English'}
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('hiding');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }, 3000);
+            },
+            
+            closeMobileMenu() {
+                const mobileSidebar = document.getElementById('mobileSidebar');
+                const mobilePanel = document.getElementById('mobilePanel');
+                
+                if (mobileSidebar && mobilePanel) {
+                    mobileSidebar.classList.remove('mobile-menu-active');
+                    mobilePanel.classList.remove('mobile-panel-active');
+                    document.body.style.overflow = '';
+                }
+            }
+        };
 
+        // Main initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year
+            const currentYear = new Date().getFullYear();
+            document.getElementById('currentYear').textContent = currentYear;
+            
+            // Initialize Language Manager
+            LanguageManager.init();
+            
             // --- Mobile Menu Logic ---
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const mobileSidebar = document.getElementById('mobileSidebar');
@@ -410,23 +921,22 @@
                 document.body.style.overflow = '';
             }
 
-            mobileMenuButton.addEventListener('click', openMenu);
-            closeMobileSidebar.addEventListener('click', closeMenu);
-            mobileOverlay.addEventListener('click', closeMenu);
+            if (mobileMenuButton) mobileMenuButton.addEventListener('click', openMenu);
+            if (closeMobileSidebar) closeMobileSidebar.addEventListener('click', closeMenu);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMenu);
             mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
 
             // --- Intersection Observer for Scroll Animations ---
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15
+                threshold: 0.1
             };
 
-            const fadeObserver = new IntersectionObserver((entries, observer) => {
+            const fadeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
@@ -435,54 +945,42 @@
                 fadeObserver.observe(section);
             });
 
-            // --- Contact Form Submission ---
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', (e) => {
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
                     e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
                     
-                    // Get form values
-                    const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                    const subject = document.getElementById('subject').value;
-                    const message = document.getElementById('message').value;
-                    const privacy = document.getElementById('privacy').checked;
-                    
-                    // Validation
-                    if (!name || !email || !message) {
-                        alert('Harap isi semua bidang yang wajib diisi.');
-                        return;
-                    }
-                    
-                    if (!privacy) {
-                        alert('Harap setujui Kebijakan Privasi.');
-                        return;
-                    }
-                    
-                    // Simulate form submission
-                    const submitBtn = contactForm.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerHTML;
-                    
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Mengirim...';
-                    submitBtn.disabled = true;
-                    
-                    // Simulate API call
-                    setTimeout(() => {
-                        alert(`Terima kasih ${name}! Pesan Anda telah berhasil dikirim. Saya akan membalas email Anda di ${email} dalam waktu 24 jam.`);
-                        
-                        // Reset form
-                        contactForm.reset();
-                        
-                        // Restore button
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    }, 1500);
-                });
-            }
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = window.innerWidth < 768 ? 80 : 100;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            // Add active state to current page in sidebar
-            document.querySelector('.sidebar a[href="contact.html"]').classList.add('bg-white/5');
-            document.querySelector('.sidebar a[href="contact.html"] i').classList.add('text-purple-400');
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (window.innerWidth < 768) {
+                            closeMenu();
+                        }
+                    }
+                });
+            });
+
+            // Error handling
+            window.addEventListener('error', function(e) {
+                console.error('Global error:', e.error);
+                e.preventDefault();
+            });
+
+            window.addEventListener('unhandledrejection', function(e) {
+                console.error('Unhandled promise rejection:', e.reason);
+                e.preventDefault();
+            });
         });
     </script>
 </body>

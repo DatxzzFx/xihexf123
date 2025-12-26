@@ -374,6 +374,115 @@
             font-size: 1.5rem;
         }
 
+        /* Language Selector Styles - FIXED */
+        .language-selector {
+            position: relative;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-left: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .language-selector:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-option {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .language-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .language-option:last-child {
+            border-bottom: none;
+        }
+
+        .language-option.active {
+            background: rgba(168, 85, 247, 0.15);
+        }
+
+        .language-check {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .language-option.active .language-check {
+            opacity: 1;
+        }
+
+        /* Untuk mobile sidebar language */
+        .mobile-language-selector {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-language-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .mobile-language-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            position: relative;
+        }
+
+        .mobile-language-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .mobile-language-option.active {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.6);
+        }
+
+        .mobile-flag {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .mobile-language-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .mobile-language-check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #a855f7;
+            font-size: 0.8rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .profile-container {
@@ -485,25 +594,6 @@
             transform: translateX(0) !important;
         }
 
-        /* Mobile Sidebar Fix - Tambahkan ini */
-        #mobileSidebar {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            z-index: 9999 !important;
-            overflow: hidden !important;
-        }
-
-        #mobilePanel {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            height: 100% !important;
-            overflow-y: auto !important;
-        }
-
         /* Button Styles */
         .gradient-btn {
             background: linear-gradient(135deg, #a855f7, #3b82f6);
@@ -583,13 +673,85 @@
             position: relative;
         }
 
-        /* Pastikan sidebar benar-benar fixed */
-        .sidebar {
-            transform: none !important;
+        /* Language Notification */
+        .language-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            background: rgba(28, 28, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease-out;
+            max-width: 300px;
         }
 
-        .sidebar:hover {
-            transform: none !important;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+
+        .language-notification.hiding {
+            animation: slideOut 0.3s ease-in;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Error State */
+        .error-message {
+            display: none;
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #f87171;
+            font-size: 0.9rem;
+        }
+
+        /* Performance optimizations */
+        .will-change-transform {
+            will-change: transform;
+        }
+
+        .will-change-opacity {
+            will-change: opacity;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -625,11 +787,74 @@
             
             <!-- Menu Items -->
             <nav class="flex flex-col w-full space-y-4">
-
-                    <span class="sidebar-content ml-4 text-gray-300 font-medium">Kontak</span>
+                <a href="#home" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-home text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="home">Beranda</span>
                 </a>
+                
+                <a href="#skills" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-code text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="skills">Keahlian</span>
+                </a>
+                
+                <a href="#motivation" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-lightbulb text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="motivation">Motivasi</span>
+                </a>
+                
+                <a href="contact.html" class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full">
+                    <i class="fas fa-envelope text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                    <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="contact">Kontak</span>
+                </a>
+                
+                <!-- Language Selector - FIXED -->
+                <div class="language-selector mt-4 pt-4 border-t border-white/10">
+                    <div class="group flex items-center p-3 rounded-xl hover:bg-white/5 transition-all duration-300 w-full cursor-pointer">
+                        <i class="fas fa-globe text-gray-400 group-hover:text-white w-6 text-center text-lg"></i>
+                        <span class="sidebar-content ml-4 text-gray-300 group-hover:text-white font-medium" data-translate="language">Bahasa</span>
+                        <i class="sidebar-content fas fa-chevron-down text-gray-400 group-hover:text-white ml-2 text-sm transition-transform duration-300"></i>
+                    </div>
+                    
+                    <!-- Language Dropdown -->
+                    <div class="language-dropdown w-48 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-white/10 overflow-hidden">
+                        <!-- Indonesia -->
+                        <div class="language-option p-3 flex items-center transition-colors" data-lang="id">
+                            <svg class="w-6 h-6 mr-3" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="36" height="24" rx="4" fill="#E70011"/>
+                                <rect y="12" width="36" height="12" rx="2" fill="#FFFFFF"/>
+                            </svg>
+                            <span class="text-white font-medium">Indonesia</span>
+                            <i class="fas fa-check text-purple-400 ml-auto language-check"></i>
+                        </div>
+                        
+                        <!-- Inggris -->
+                        <div class="language-option p-3 flex items-center transition-colors" data-lang="en">
+                            <svg class="w-6 h-6 mr-3" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="36" height="24" rx="4" fill="#012169"/>
+                                <path d="M0 0L36 24M36 0L0 24" stroke="#C8102E" stroke-width="4"/>
+                                <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#FFFFFF" stroke-width="3.6"/>
+                                <path d="M0 0L36 24M36 0L0 24" stroke="#FFFFFF" stroke-width="2"/>
+                                <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#C8102E" stroke-width="1.2"/>
+                            </svg>
+                            <span class="text-white font-medium">English</span>
+                            <i class="fas fa-check text-purple-400 ml-auto language-check"></i>
+                        </div>
+                    </div>
+                </div>
             </nav>
         </div>
+        
+        <!-- Social Links at Bottom -->
+        <div class="flex flex-col items-center space-y-4">
+            <div class="flex space-x-3">
+                <a href="https://github.com/datxzz" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+                    <i class="fab fa-github text-white"></i>
+                </a>
+                <a href="https://linkedin.com/in/datxzz" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+                    <i class="fab fa-linkedin-in text-white"></i>
+                </a>
+            </div>
+            <p class="sidebar-content text-xs text-gray-500 text-center">© <span id="currentYearSidebar"></span> Datxzz</p>
         </div>
     </aside>
     
@@ -644,15 +869,48 @@
         <div class="absolute top-0 left-0 h-full w-72 ios-card transform -translate-x-full transition-transform duration-300" id="mobilePanel">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-12">
-                    <span class="text-2xl font-bold gradient-text">Menu</span>
+                    <span class="text-2xl font-bold gradient-text" data-translate="mobileMenuTitle">Menu</span>
                     <button id="closeMobileSidebar" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
                         <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
                 <nav class="flex flex-col space-y-6">
-
-                    <a href="contact.html" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors">Kontak</a>
+                    <a href="#home" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors" data-translate="home">Beranda</a>
+                    <a href="contact.html" class="text-xl text-gray-300 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors" data-translate="contact">Kontak</a>
                 </nav>
+                
+                <!-- Mobile Language Selector -->
+                <div class="mobile-language-selector fade-in-section">
+                    <h3 class="text-lg font-semibold mb-4 text-center gradient-text" data-translate="languageSelector">Pilih Bahasa</h3>
+                    <div class="mobile-language-options">
+                        <!-- Indonesia -->
+                        <div class="mobile-language-option relative" data-lang="id">
+                            <div class="mobile-flag">
+                                <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="36" height="24" rx="4" fill="#E70011"/>
+                                    <rect y="12" width="36" height="12" rx="2" fill="#FFFFFF"/>
+                                </svg>
+                            </div>
+                            <span class="mobile-language-text">Indonesia</span>
+                            <i class="fas fa-check mobile-language-check"></i>
+                        </div>
+                        
+                        <!-- English -->
+                        <div class="mobile-language-option relative" data-lang="en">
+                            <div class="mobile-flag">
+                                <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="36" height="24" rx="4" fill="#012169"/>
+                                    <path d="M0 0L36 24M36 0L0 24" stroke="#C8102E" stroke-width="4"/>
+                                    <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#FFFFFF" stroke-width="3.6"/>
+                                    <path d="M0 0L36 24M36 0L0 24" stroke="#FFFFFF" stroke-width="2"/>
+                                    <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#C8102E" stroke-width="1.2"/>
+                                </svg>
+                            </div>
+                            <span class="mobile-language-text">English</span>
+                            <i class="fas fa-check mobile-language-check"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -666,20 +924,18 @@
                 <div class="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 md:gap-16">
                     <div class="lg:w-1/2 fade-in-section">
                         <div class="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-                            <span class="text-sm font-medium text-purple-400">👋 Selamat Datang di Portofolio Saya</span>
+                            <span class="text-sm font-medium text-purple-400" data-translate="welcome">👋 Selamat Datung di Portofolio Saya</span>
                         </div>
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6" data-translate="title">
                             Halo, Saya <br>
                             <span class="gradient-text">Datxzz</span>
                         </h1>
-                        <h2 class="text-xl text-gray-400 mb-8 font-light">Back-end Developert & Front-end Developert</h2>
-                        <p class="text-gray-400 text-lg mb-10 max-w-lg leading-relaxed">Menciptakan Suatu Project Dengan Imajinasi Yang Responsif, Elegan, Dan Modern</p>
+                        <h2 class="text-xl text-gray-400 mb-8 font-light" data-translate="subtitle">Back-end Developer & Front-end Developer</h2>
+                        <p class="text-gray-400 text-lg mb-10 max-w-lg leading-relaxed" data-translate="description">Menciptakan Suatu Project Dengan Imajinasi Yang Responsif, Elegan, Dan Modern</p>
                     </div>
                     <div class="lg:w-1/2 flex justify-center fade-in-section">
                         <div class="profile-container floating-element">
-                            <!-- Foto Profil me.jpg -->
                             <img src="me.jpg" alt="Datxzz" class="profile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <!-- Fallback jika gambar tidak ada -->
                             <div class="hidden w-full h-full absolute top-0 left-0 items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-full">
                                 <div class="text-center">
                                     <i class="fas fa-user text-6xl text-gray-600 mb-4"></i>
@@ -696,8 +952,8 @@
         <section id="skills" class="py-20 md:py-24 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-transparent to-purple-900/5">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16 fade-in-section">
-                    <h2 class="text-4xl font-bold mb-4">Keahlian</h2>
-                    <p class="text-gray-400 max-w-2xl mx-auto text-lg">Keahlian Saya Dalam Bidang Teknologi</p>
+                    <h2 class="text-4xl font-bold mb-4" data-translate="skillsTitle">Keahlian</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-lg" data-translate="skillsSubtitle">Keahlian Saya Dalam Bidang Teknologi</p>
                 </div>
                 
                 <!-- Donut Charts Grid (Desktop) -->
@@ -764,7 +1020,7 @@
 
                     <!-- Motivation Section -->
                     <div id="motivation" class="mt-16">
-                        <h3 class="text-2xl font-bold mb-8 text-center gradient-text">Motivasi & Filosofi Saya</h3>
+                        <h3 class="text-2xl font-bold mb-8 text-center gradient-text" data-translate="motivationTitle">Motivasi & Filosofi Saya</h3>
                         
                         <div class="motivation-grid">
                             <!-- Motivation Card 1 -->
@@ -772,8 +1028,8 @@
                                 <div class="motivation-icon">
                                     <i class="fas fa-bolt text-white"></i>
                                 </div>
-                                <h4 class="text-xl font-semibold mb-3">Inovasi Berkelanjutan</h4>
-                                <p class="text-gray-400">Saya percaya dalam mendorong batas dan terus menjelajahi teknologi baru. Setiap proyek adalah kesempatan untuk berinovasi dan menciptakan sesuatu yang luar biasa.</p>
+                                <h4 class="text-xl font-semibold mb-3" data-translate="innovationTitle">Inovasi Berkelanjutan</h4>
+                                <p class="text-gray-400" data-translate="innovationText">Saya percaya dalam mendorong batas dan terus menjelajahi teknologi baru. Setiap proyek adalah kesempatan untuk berinovasi dan menciptakan sesuatu yang luar biasa.</p>
                             </div>
 
                             <!-- Motivation Card 2 -->
@@ -781,8 +1037,8 @@
                                 <div class="motivation-icon">
                                     <i class="fas fa-heart text-white"></i>
                                 </div>
-                                <h4 class="text-xl font-semibold mb-3">Pengembangan Berbasis Passion</h4>
-                                <p class="text-gray-400">Coding bukan hanya pekerjaan—ini adalah passion saya. Saya mencurahkan hati saya ke dalam setiap baris kode, memastikan setiap proyek mencerminkan dedikasi dan keunggulan.</p>
+                                <h4 class="text-xl font-semibold mb-3" data-translate="passionTitle">Pengembangan Berbasis Passion</h4>
+                                <p class="text-gray-400" data-translate="passionText">Coding bukan hanya pekerjaan—ini adalah passion saya. Saya mencurahkan hati saya ke dalam setiap baris kode, memastikan setiap proyek mencerminkan dedikasi dan keunggulan.</p>
                             </div>
 
                             <!-- Motivation Card 3 -->
@@ -790,8 +1046,8 @@
                                 <div class="motivation-icon">
                                     <i class="fas fa-rocket text-white"></i>
                                 </div>
-                                <h4 class="text-xl font-semibold mb-3">Solusi Siap Masa Depan</h4>
-                                <p class="text-gray-400">Spesialis dalam AI dan teknologi web modern, saya membangun solusi yang tidak hanya untuk hari ini, tetapi dirancang untuk berevolusi dan beradaptasi dengan tantangan masa depan.</p>
+                                <h4 class="text-xl font-semibold mb-3" data-translate="futureTitle">Solusi Siap Masa Depan</h4>
+                                <p class="text-gray-400" data-translate="futureText">Spesialis dalam AI dan teknologi web modern, saya membangun solusi yang tidak hanya untuk hari ini, tetapi dirancang untuk berevolusi dan beradaptasi dengan tantangan masa depan.</p>
                             </div>
 
                             <!-- Motivation Card 4 -->
@@ -799,18 +1055,18 @@
                                 <div class="motivation-icon">
                                     <i class="fas fa-users text-white"></i>
                                 </div>
-                                <h4 class="text-xl font-semibold mb-3">Pendekatan Berpusat pada Pengguna</h4>
-                                <p class="text-gray-400">Teknologi yang hebat harus dapat diakses oleh semua orang. Saya fokus pada penciptaan pengalaman yang intuitif dan ramah pengguna yang membuat teknologi kompleks terasa sederhana.</p>
+                                <h4 class="text-xl font-semibold mb-3" data-translate="userTitle">Pendekatan Berpusat pada Pengguna</h4>
+                                <p class="text-gray-400" data-translate="userText">Teknologi yang hebat harus dapat diakses oleh semua orang. Saya fokus pada penciptaan pengalaman yang intuitif dan ramah pengguna yang membuat teknologi kompleks terasa sederhana.</p>
                             </div>
                         </div>
 
                         <!-- Quote -->
                         <div class="mt-12 text-center">
                             <div class="inline-block px-8 py-6 bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20">
-                                <p class="text-lg text-gray-300 italic mb-4">
+                                <p class="text-lg text-gray-300 italic mb-4" data-translate="quote">
                                     "Teknologi terbaik adalah ketika menghubungkan orang. Tujuan saya adalah membangun jembatan digital yang menghubungkan ide dengan kenyataan."
                                 </p>
-                                <p class="text-purple-400 font-medium">— Datxzz</p>
+                                <p class="text-purple-400 font-medium" data-translate="author">— Datxzz</p>
                             </div>
                         </div>
                     </div>
@@ -828,7 +1084,7 @@
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: 95%"></div>
                             </div>
-                            <p class="text-gray-400 text-sm mt-2">Menguasai struktur semantik dan aksesibilitas</p>
+                            <p class="text-gray-400 text-sm mt-2" data-translate="htmlDesc">Menguasai struktur semantik dan aksesibilitas</p>
                         </div>
 
                         <!-- JavaScript Progress -->
@@ -840,7 +1096,7 @@
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: 90%"></div>
                             </div>
-                            <p class="text-gray-400 text-sm mt-2">Membangun pengalaman web yang dinamis dan interaktif</p>
+                            <p class="text-gray-400 text-sm mt-2" data-translate="jsDesc">Membangun pengalaman web yang dinamis dan interaktif</p>
                         </div>
 
                         <!-- Python Progress -->
@@ -852,7 +1108,7 @@
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: 85%"></div>
                             </div>
-                            <p class="text-gray-400 text-sm mt-2">Mengembangkan backend efisien dan solusi data</p>
+                            <p class="text-gray-400 text-sm mt-2" data-translate="pythonDesc">Mengembangkan backend efisien dan solusi data</p>
                         </div>
 
                         <!-- AI Progress -->
@@ -864,21 +1120,21 @@
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: 100%"></div>
                             </div>
-                            <p class="text-gray-400 text-sm mt-2">Membuat sistem cerdas dan solusi machine learning</p>
+                            <p class="text-gray-400 text-sm mt-2" data-translate="aiDesc">Membuat sistem cerdas dan solusi machine learning</p>
                         </div>
 
                         <!-- Mobile Motivation -->
                         <div id="motivation" class="mt-8">
-                            <h3 class="text-xl font-bold mb-4 gradient-text">Motivasi Saya</h3>
+                            <h3 class="text-xl font-bold mb-4 gradient-text" data-translate="mobileMotivation">Motivasi Saya</h3>
                             <div class="space-y-4">
                                 <div class="p-4 bg-white/5 rounded-xl border border-white/10">
                                     <div class="flex items-center mb-2">
                                         <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center mr-3">
                                             <i class="fas fa-bolt text-white text-sm"></i>
                                         </div>
-                                        <h4 class="font-semibold">Inovasi Pertama</h4>
+                                        <h4 class="font-semibold" data-translate="innovationMobile">Inovasi Pertama</h4>
                                     </div>
-                                    <p class="text-gray-400 text-sm">Masa depan tidak diciptakan oleh orang-orang yang ragu, melainkan oleh orang-orang yang terus melangkah meski kakinya gemetar.</p>
+                                    <p class="text-gray-400 text-sm" data-translate="innovationMobileText">Masa depan tidak diciptakan oleh orang-orang yang ragu, melainkan oleh orang-orang yang terus melangkah meski kakinya gemetar.</p>
                                 </div>
                                 
                                 <div class="p-4 bg-white/5 rounded-xl border border-white/10">
@@ -886,9 +1142,9 @@
                                         <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center mr-3">
                                             <i class="fas fa-rocket text-white text-sm"></i>
                                         </div>
-                                        <h4 class="font-semibold">Siap Masa Depan</h4>
+                                        <h4 class="font-semibold" data-translate="futureMobile">Siap Masa Depan</h4>
                                     </div>
-                                    <p class="text-gray-400 text-sm">Membangun solusi yang berevolusi dan beradaptasi untuk tantangan masa depan.</p>
+                                    <p class="text-gray-400 text-sm" data-translate="futureMobileText">Membangun solusi yang berevolusi dan beradaptasi untuk tantangan masa depan.</p>
                                 </div>
                             </div>
                         </div>
@@ -900,11 +1156,11 @@
         <!-- Footer -->
         <footer class="py-10 border-t border-white/5 text-center relative z-10 bg-black/50 backdrop-blur-sm">
             <div class="max-w-7xl mx-auto px-6">
-                <p class="text-gray-600 text-sm">© <span id="currentYear"></span> Datxzz. Semua hak dilindungi.</p>
+                <p class="text-gray-600 text-sm">© <span id="currentYear"></span> Datxzz. <span data-translate="footerRights">Semua hak dilindungi.</span></p>
                 <div class="mt-4 flex justify-center space-x-6">
-
+                </div>
                 <div class="mt-6">
-                    <a href="contact.html" class="text-gray-500 hover:text-white transition-colors text-sm">
+                    <a href="contact.html" class="text-gray-500 hover:text-white transition-colors text-sm" data-translate="contactLink">
                         → Pergi ke Halaman Kontak
                     </a>
                 </div>
@@ -913,10 +1169,305 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set current year in footer
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Language Manager dengan localStorage
+        const LanguageManager = {
+            currentLang: 'id',
+            translations: {
+                id: {
+                    // Navigation
+                    home: 'Beranda',
+                    skills: 'Keahlian',
+                    motivation: 'Motivasi',
+                    contact: 'Kontak',
+                    language: 'Bahasa',
+                    
+                    // Hero Section
+                    welcome: '👋 Selamat Datang di Portofolio Saya',
+                    title: 'Halo, Saya',
+                    subtitle: 'Back-end Developer & Front-end Developer',
+                    description: 'Menciptakan Suatu Project Dengan Imajinasi Yang Responsif, Elegan, Dan Modern',
+                    
+                    // Skills Section
+                    skillsTitle: 'Keahlian',
+                    skillsSubtitle: 'Keahlian Saya Dalam Bidang Teknologi',
+                    htmlDesc: 'Menguasai struktur semantik dan aksesibilitas',
+                    jsDesc: 'Membangun pengalaman web yang dinamis dan interaktif',
+                    pythonDesc: 'Mengembangkan backend efisien dan solusi data',
+                    aiDesc: 'Membuat sistem cerdas dan solusi machine learning',
+                    
+                    // Motivation
+                    motivationTitle: 'Motivasi & Filosofi Saya',
+                    innovationTitle: 'Inovasi Berkelanjutan',
+                    innovationText: 'Saya percaya dalam mendorong batas dan terus menjelajahi teknologi baru. Setiap proyek adalah kesempatan untuk berinovasi dan menciptakan sesuatu yang luar biasa.',
+                    passionTitle: 'Pengembangan Berbasis Passion',
+                    passionText: 'Coding bukan hanya pekerjaan—ini adalah passion saya. Saya mencurahkan hati saya ke dalam setiap baris kode, memastikan setiap proyek mencerminkan dedikasi dan keunggulan.',
+                    futureTitle: 'Solusi Siap Masa Depan',
+                    futureText: 'Spesialis dalam AI dan teknologi web modern, saya membangun solusi yang tidak hanya untuk hari ini, tetapi dirancang untuk berevolusi dan beradaptasi dengan tantangan masa depan.',
+                    userTitle: 'Pendekatan Berpusat pada Pengguna',
+                    userText: 'Teknologi yang hebat harus dapat diakses oleh semua orang. Saya fokus pada penciptaan pengalaman yang intuitif dan ramah pengguna yang membuat teknologi kompleks terasa sederhana.',
+                    quote: '"Teknologi terbaik adalah ketika menghubungkan orang. Tujuan saya adalah membangun jembatan digital yang menghubungkan ide dengan kenyataan."',
+                    author: '— Datxzz',
+                    
+                    // Mobile Motivation
+                    mobileMotivation: 'Motivasi Saya',
+                    innovationMobile: 'Inovasi Pertama',
+                    innovationMobileText: 'Masa depan tidak diciptakan oleh orang-orang yang ragu, melainkan oleh orang-orang yang terus melangkah meski kakinya gemetar.',
+                    futureMobile: 'Siap Masa Depan',
+                    futureMobileText: 'Membangun solusi yang berevolusi dan beradaptasi untuk tantangan masa depan.',
+                    
+                    // Footer
+                    footerRights: 'Semua hak dilindungi.',
+                    contactLink: '→ Pergi ke Halaman Kontak',
+                    
+                    // Mobile Menu
+                    mobileMenuTitle: 'Menu',
+                    languageSelector: 'Pilih Bahasa'
+                },
+                en: {
+                    // Navigation
+                    home: 'Home',
+                    skills: 'Skills',
+                    motivation: 'Motivation',
+                    contact: 'Contact',
+                    language: 'Language',
+                    
+                    // Hero Section
+                    welcome: '👋 Welcome to My Portfolio',
+                    title: 'Hello, I\'m',
+                    subtitle: 'Back-end Developer & Front-end Developer',
+                    description: 'Creating Projects With Imagination That Are Responsive, Elegant, and Modern',
+                    
+                    // Skills Section
+                    skillsTitle: 'Skills',
+                    skillsSubtitle: 'My Expertise in Technology',
+                    htmlDesc: 'Mastering semantic structure and accessibility',
+                    jsDesc: 'Building dynamic and interactive web experiences',
+                    pythonDesc: 'Developing efficient backend and data solutions',
+                    aiDesc: 'Creating intelligent systems and machine learning solutions',
+                    
+                    // Motivation
+                    motivationTitle: 'My Motivation & Philosophy',
+                    innovationTitle: 'Continuous Innovation',
+                    innovationText: 'I believe in pushing boundaries and continuously exploring new technologies. Every project is an opportunity to innovate and create something extraordinary.',
+                    passionTitle: 'Passion-Driven Development',
+                    passionText: 'Coding isn\'t just a job—it\'s my passion. I pour my heart into every line of code, ensuring each project reflects dedication and excellence.',
+                    futureTitle: 'Future-Ready Solutions',
+                    futureText: 'Specializing in AI and modern web technologies, I build solutions not just for today, but designed to evolve and adapt to future challenges.',
+                    userTitle: 'User-Centric Approach',
+                    userText: 'Great technology should be accessible to everyone. I focus on creating intuitive, user-friendly experiences that make complex technology feel simple.',
+                    quote: '"The best technology connects people. My goal is to build digital bridges that connect ideas with reality."',
+                    author: '— Datxzz',
+                    
+                    // Mobile Motivation
+                    mobileMotivation: 'My Motivation',
+                    innovationMobile: 'Innovation First',
+                    innovationMobileText: 'The future is not created by those who hesitate, but by those who keep moving forward even when their feet tremble.',
+                    futureMobile: 'Future Ready',
+                    futureMobileText: 'Building solutions that evolve and adapt to future challenges.',
+                    
+                    // Footer
+                    footerRights: 'All rights reserved.',
+                    contactLink: '→ Go to Contact Page',
+                    
+                    // Mobile Menu
+                    mobileMenuTitle: 'Menu',
+                    languageSelector: 'Select Language'
+                }
+            },
+            
+            init() {
+                // Load saved language from localStorage
+                const savedLang = localStorage.getItem('portfolio-language');
+                if (savedLang && (savedLang === 'id' || savedLang === 'en')) {
+                    this.currentLang = savedLang;
+                } else {
+                    // Default to Indonesian
+                    this.currentLang = 'id';
+                    localStorage.setItem('portfolio-language', 'id');
+                }
+                
+                // Apply language on load
+                this.applyLanguage();
+                
+                // Set up language selector events
+                this.setupLanguageSelectors();
+            },
+            
+            setupLanguageSelectors() {
+                // Desktop language options
+                document.querySelectorAll('.language-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        this.changeLanguage(lang);
+                    });
+                });
+                
+                // Mobile language options
+                document.querySelectorAll('.mobile-language-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        this.changeLanguage(lang);
+                        
+                        // Close mobile menu if open
+                        if (window.innerWidth < 768) {
+                            const mobileSidebar = document.getElementById('mobileSidebar');
+                            if (mobileSidebar.classList.contains('mobile-menu-active')) {
+                                this.closeMobileMenu();
+                            }
+                        }
+                    });
+                });
+                
+                // Prevent dropdown from closing when clicking inside
+                document.querySelectorAll('.language-selector').forEach(selector => {
+                    selector.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+                });
+            },
+            
+            changeLanguage(lang) {
+                if (lang === this.currentLang) return;
+                
+                this.currentLang = lang;
+                localStorage.setItem('portfolio-language', lang);
+                
+                // Apply new language
+                this.applyLanguage();
+                
+                // Update active states
+                this.updateActiveStates();
+                
+                // Show notification
+                this.showLanguageNotification(lang);
+            },
+            
+            applyLanguage() {
+                const t = this.translations[this.currentLang];
+                
+                // Update all elements with data-translate attribute
+                document.querySelectorAll('[data-translate]').forEach(element => {
+                    const key = element.getAttribute('data-translate');
+                    if (t[key]) {
+                        element.textContent = t[key];
+                    }
+                });
+                
+                // Update HTML lang attribute
+                document.documentElement.lang = this.currentLang;
+                
+                // Update title if needed
+                if (this.currentLang === 'en') {
+                    document.title = 'Portfolio - Datxzz';
+                } else {
+                    document.title = 'Portofolio - Datxzz';
+                }
+            },
+            
+            updateActiveStates() {
+                // Desktop language options
+                document.querySelectorAll('.language-option').forEach(option => {
+                    const lang = option.getAttribute('data-lang');
+                    if (lang === this.currentLang) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+                
+                // Mobile language options
+                document.querySelectorAll('.mobile-language-option').forEach(option => {
+                    const lang = option.getAttribute('data-lang');
+                    const checkIcon = option.querySelector('.mobile-language-check');
+                    
+                    if (lang === this.currentLang) {
+                        option.classList.add('active');
+                        checkIcon.style.display = 'block';
+                    } else {
+                        option.classList.remove('active');
+                        checkIcon.style.display = 'none';
+                    }
+                });
+            },
+            
+            showLanguageNotification(lang) {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.language-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = 'language-notification';
+                
+                // Create flag SVG
+                let flagSvg = '';
+                if (lang === 'id') {
+                    flagSvg = `
+                        <svg width="24" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="36" height="24" rx="4" fill="#E70011"/>
+                            <rect y="12" width="36" height="12" rx="2" fill="#FFFFFF"/>
+                        </svg>
+                    `;
+                } else {
+                    flagSvg = `
+                        <svg width="24" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="36" height="24" rx="4" fill="#012169"/>
+                            <path d="M0 0L36 24M36 0L0 24" stroke="#C8102E" stroke-width="4"/>
+                            <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#FFFFFF" stroke-width="3.6"/>
+                            <path d="M0 0L36 24M36 0L0 24" stroke="#FFFFFF" stroke-width="2"/>
+                            <path d="M15 0V24M21 0V24M0 9H36M0 15H36" stroke="#C8102E" stroke-width="1.2"/>
+                        </svg>
+                    `;
+                }
+                
+                // Set notification content
+                notification.innerHTML = `
+                    <div class="flex-shrink-0">
+                        ${flagSvg}
+                    </div>
+                    <div class="text-white text-sm font-medium">
+                        ${lang === 'id' ? 'Bahasa diubah ke Indonesia' : 'Language changed to English'}
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('hiding');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }, 3000);
+            },
+            
+            closeMobileMenu() {
+                const mobileSidebar = document.getElementById('mobileSidebar');
+                const mobilePanel = document.getElementById('mobilePanel');
+                
+                if (mobileSidebar && mobilePanel) {
+                    mobileSidebar.classList.remove('mobile-menu-active');
+                    mobilePanel.classList.remove('mobile-panel-active');
+                    document.body.style.overflow = '';
+                }
+            }
+        };
 
+        // Main initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year
+            const currentYear = new Date().getFullYear();
+            document.getElementById('currentYear').textContent = currentYear;
+            
+            // Initialize Language Manager
+            LanguageManager.init();
+            
             // --- Mobile Menu Logic ---
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const mobileSidebar = document.getElementById('mobileSidebar');
@@ -937,12 +1488,12 @@
                 document.body.style.overflow = '';
             }
 
-            mobileMenuButton.addEventListener('click', openMenu);
-            closeMobileSidebar.addEventListener('click', closeMenu);
-            mobileOverlay.addEventListener('click', closeMenu);
+            if (mobileMenuButton) mobileMenuButton.addEventListener('click', openMenu);
+            if (closeMobileSidebar) closeMobileSidebar.addEventListener('click', closeMenu);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMenu);
             mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
 
-            // Tutup mobile menu saat scroll - FIX
+            // Close mobile menu on scroll
             window.addEventListener('scroll', () => {
                 if (window.innerWidth < 768 && mobileSidebar.classList.contains('mobile-menu-active')) {
                     closeMenu();
@@ -953,42 +1504,28 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15
+                threshold: 0.1
             };
 
-            const fadeObserver = new IntersectionObserver((entries, observer) => {
+            const fadeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
                         
-                        // Animate donut charts with staggered delay
+                        // Animate donut charts
                         if (entry.target.id === 'skills' || entry.target.closest('#skills')) {
-                            setTimeout(() => {
+                            requestAnimationFrame(() => {
                                 document.querySelectorAll('.donut-progress').forEach((chart, index) => {
                                     const percent = parseInt(chart.getAttribute('data-percent'));
-                                    const circumference = 628; // 2 * PI * 100
+                                    const circumference = 628;
                                     const offset = circumference - (percent / 100) * circumference;
                                     
-                                    // Stagger animation
                                     setTimeout(() => {
                                         chart.style.strokeDashoffset = offset;
-                                        // Add pulse animation to chart center
-                                        const chartCenter = chart.closest('.donut-chart-container').querySelector('.chart-center');
-                                        chartCenter.classList.add('pulse-animation');
-                                        setTimeout(() => {
-                                            chartCenter.classList.remove('pulse-animation');
-                                        }, 1000);
-                                    }, index * 300);
+                                    }, index * 200);
                                 });
-                            }, 500);
+                            });
                         }
-                        
-                        // Animate motivation cards
-                        if (entry.target.closest('.motivation-card')) {
-                            entry.target.style.animationDelay = '0.3s';
-                        }
-                        
-                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
@@ -1023,34 +1560,43 @@
                 });
             });
 
-            // Animate progress bars on mobile when in view
-            const progressBars = document.querySelectorAll('.progress-fill');
-            
-            if (window.innerWidth < 768) {
-                const progressObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const progressFill = entry.target;
-                            const width = progressFill.style.width;
-                            progressFill.style.width = '0%';
-                            setTimeout(() => {
-                                progressFill.style.width = width;
-                            }, 100);
-                            
-                            // Animate parent container
-                            const container = progressFill.closest('.progress-container');
-                            container.style.opacity = '0';
-                            container.style.transform = 'translateY(20px)';
-                            setTimeout(() => {
-                                container.style.transition = 'all 0.6s ease';
-                                container.style.opacity = '1';
-                                container.style.transform = 'translateY(0)';
-                            }, 50);
-                        }
-                    });
-                }, { threshold: 0.3 });
+            // Add hover effect to donut charts
+            document.querySelectorAll('.donut-chart-container').forEach(chart => {
+                chart.addEventListener('mouseenter', () => {
+                    const center = chart.querySelector('.chart-center');
+                    center.style.transform = 'translate(-50%, -50%) scale(1.05)';
+                });
+                
+                chart.addEventListener('mouseleave', () => {
+                    const center = chart.querySelector('.chart-center');
+                    center.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            });
 
-                progressBars.forEach(bar => progressObserver.observe(bar));
+            // Prevent errors with missing elements
+            try {
+                // Animate progress bars on mobile when in view
+                if (window.innerWidth < 768) {
+                    const progressObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const progressFill = entry.target;
+                                const width = progressFill.style.width;
+                                progressFill.style.width = '0%';
+                                
+                                requestAnimationFrame(() => {
+                                    setTimeout(() => {
+                                        progressFill.style.width = width;
+                                    }, 50);
+                                });
+                            }
+                        });
+                    }, { threshold: 0.3 });
+
+                    document.querySelectorAll('.progress-fill').forEach(bar => progressObserver.observe(bar));
+                }
+            } catch (error) {
+                console.warn('Progress bar animation error:', error);
             }
 
             // Add active state to nav links on scroll
@@ -1084,39 +1630,29 @@
             window.addEventListener('scroll', updateActiveNav);
             updateActiveNav(); // Initial call
 
-            // Add hover effect to donut charts
-            document.querySelectorAll('.donut-chart-container').forEach(chart => {
-                chart.addEventListener('mouseenter', () => {
-                    const progress = chart.querySelector('.donut-progress');
-                    const originalStrokeWidth = progress.style.strokeWidth;
-                    progress.style.strokeWidth = '16';
-                    progress.style.filter = 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.6))';
-                    
-                    const center = chart.querySelector('.chart-center');
-                    center.style.transform = 'translate(-50%, -50%) scale(1.05)';
-                    center.style.transition = 'transform 0.3s ease';
-                });
-                
-                chart.addEventListener('mouseleave', () => {
-                    const progress = chart.querySelector('.donut-progress');
-                    progress.style.strokeWidth = '14';
-                    progress.style.filter = '';
-                    
-                    const center = chart.querySelector('.chart-center');
-                    center.style.transform = 'translate(-50%, -50%) scale(1)';
+            // Error handling for images
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    const fallback = this.nextElementSibling;
+                    if (fallback) {
+                        fallback.style.display = 'flex';
+                    }
                 });
             });
+        });
 
-            // Prevent body scroll when mobile menu is open
-            function preventBodyScroll(prevent) {
-                if (prevent) {
-                    document.body.style.overflow = 'hidden';
-                    document.documentElement.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                    document.documentElement.style.overflow = '';
-                }
-            }
+        // Error boundary
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            // Prevent breaking the whole page
+            e.preventDefault();
+        });
+
+        // Unhandled promise rejection
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            e.preventDefault();
         });
     </script>
 </body>
